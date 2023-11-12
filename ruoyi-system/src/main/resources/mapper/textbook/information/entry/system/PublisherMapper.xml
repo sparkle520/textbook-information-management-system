@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.textbook.information.entry.system.mapper.PublisherMapper">
+    <resultMap type="Publisher" id="PublisherResult">
+        <result property="publisherId" column="publisher_id"/>
+        <result property="publisherName" column="publisher_name"/>
+        <result property="publisherPhone" column="publisher_phone"/>
+        <result property="publisherISBN" column="publisher_ISBN"/>
+        <result property="publisherContactName" column="publisher_contact_name"/>
+        <result property="publisherAddress" column="publisher_address"/>
+    </resultMap>
+    <sql id="selectPublisherVo">
+        SELECT publisher_id, publisher_name, publisher_phone, publisher_ISBN, publisher_contact_name, publisher_address
+        FROM t_publisher
+    </sql>
+    <insert id="insertPublisher" parameterType="Publisher" useGeneratedKeys="true" keyProperty="publisherId">
+        INSERT INTO  t_publisher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="publisherName != null and publisherName != ''">publisher_name,</if>
+            <if test="publisherPhone != null">publisher_phone,</if>
+            <if test="publisherISBN != null and publisherISBN != ''">publisher_ISBN,</if>
+            <if test="publisherContactName != null">publisher_contact_name,</if>
+            <if test="publisherAddress != null">publisher_address,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="publisherName != null and publisherName != ''">#{publisherName},</if>
+            <if test="publisherPhone != null">#{publisherPhone},</if>
+            <if test="publisherISBN != null and publisherISBN != ''">#{publisherISBN},</if>
+            <if test="publisherContactName != null">#{publisherContactName},</if>
+            <if test="publisherAddress != null">#{publisherAddress},</if>
+        </trim>
+    </insert>
+
+    <update id="updatePublisher" parameterType="publisher">
+        UPDATE t_publisher
+        <set>
+            <if test="publisherName != null and publisherName != ''">publisher_name = #{publisherName},</if>
+            <if test="publisherPhone != null and publisherPhone != ''">publisher_phone = #{publisherPhone},</if>
+            <if test="publisherISBN != null and publisherISBN != ''">publisher_ISBN = #{publisherISBN},</if>
+            <if test="publisherContactName != null and publisherContactName != ''">publisher_contact_name = #{publisherContactName},</if>
+            <if test="publisherAddress != null and publisherAddress != ''">publisher_address = #{publisherAddress},</if>
+        </set>
+        WHERE publisher_id = #{publisherId}
+    </update>
+    <delete id="deletePublisherById" parameterType="integer">
+        DELETE FROM t_publisher WHERE publisher_id = #{publisherId}
+    </delete>
+    <delete id="deletePublisherByIds" parameterType="integer">
+        DELETE FROM t_publisher WHERE publisher_id IN
+        <foreach collection="array" item="publisherId" open="(" separator="," close=")">
+            #{publisherId}
+        </foreach>
+    </delete>
+
+    <!--    动态查询-->
+    <select id="selectPublisherList" parameterType="Publisher" resultMap="PublisherResult">
+        <include refid="selectPublisherVo"/>
+        <where>
+            <if test="publisherName != null and publisherName != ''">
+                AND publisher_name LIKE CONCAT('%',#{publisherName},'%')
+            </if>
+            <if test="publisherISBN != null and publisherISBN != ''">
+                AND publisher_ISBN LIKE CONCAT('%',#{publisherISBN},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectPublisherByPublisherId" parameterType="integer" resultMap="PublisherResult">
+        <include refid="selectPublisherVo"/>
+        WHERE publisher_id = #{publisherId}
+    </select>
+</mapper>
