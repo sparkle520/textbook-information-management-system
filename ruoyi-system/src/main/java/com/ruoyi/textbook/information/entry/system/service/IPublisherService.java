@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author LT
  * @version 1.0
- * @project RuoYi-Vue
+ * @project textbook-information-management-system
  * @description
  * @date 11/11/2023 20:01:25
  */
@@ -19,6 +19,7 @@ public interface IPublisherService {
     Publisher selectPublisherByPublisherId(Integer publisherId);
 
     boolean checkPublisherNameUnique(Publisher publisher);
+
     public int deletePublisherByIds(Integer[] publisherIds);
 
 }

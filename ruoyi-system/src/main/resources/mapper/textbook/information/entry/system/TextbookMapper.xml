@@ -3,5 +3,101 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.textbook.information.entry.system.mapper.TextbookMapper">
+    <resultMap type="Textbook" id="TextbookResult">
+        <result property="textbookId" column="textbook_id"/>
+        <result property="textbookTitle" column="textbook_title"/>
+        <result property="textbookAuthor" column="textbook_author"/>
+        <result property="publisherId" column="publisher_id"/>
+        <result property="textbookPrice" column="textbook_price"/>
+        <result property="textbookCreateBy" column="textbook_create_by"/>
+        <result property="textbookCreateTime" column="textbook_create_time"/>
+        <result property="textbookUpdateBy" column="textbook_update_by"/>
+        <result property="textbookUpdateTime" column="textbook_update_time"/>
+        <result property="textbookISBN" column="textbook_ISBN"/>
+    </resultMap>
+    <sql id="selectTTextbookVo">
+        SELECT textbook_id,
+               textbook_title,
+               textbook_author,
+               textbook_ISBN,
+               publisher_id,
+               textbook_price,
+               textbook_create_by,
+               textbook_create_time,
+               textbook_update_by,
+               textbook_update_time
+        FROM t_textbook
+    </sql>
+    <insert id="insertTextbook" parameterType="Textbook" useGeneratedKeys="true" keyProperty="textbookId">
+        INSERT INTO t_textbook
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="textbookTitle != null and textbookTitle != ''">textbook_title,</if>
+            <if test="textbookAuthor != null">textbook_author,</if>
+            <if test="textbookISBN != null and textbookISBN != ''">textbook_ISBN,</if>
+            <if test="publisherId != null and publisherId != 0">publisher_id,</if>
+            <if test="textbookPrice != null">textbook_price,</if>
+            <if test="textbookCreateBy != null and textbookCreateBy != 0">textbook_create_by,</if>
+            textbook_create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="textbookTitle != null and textbookTitle != ''">#{textbookTitle},</if>
+            <if test="textbookAuthor != null">#{textbookAuthor},</if>
+            <if test="textbookISBN != null and textbookISBN != ''">#{textbookISBN},</if>
+            <if test="publisherId != null and publisherId != 0">#{publisherId},</if>
+            <if test="textbookPrice != null">#{textbookPrice},</if>
+            <if test="textbookCreateBy != null and textbookCreateBy != 0">#{textbookCreateBy},</if>
+            now(),
+        </trim>
+    </insert>
+    <update id="updateTextbook" parameterType="textbook">
+      UPDATE t_textbook
+        <set>
+            <if test="textbookTitle != null and textbookTitle != ''">textbook_title = #{textbookTitle},</if>
+            <if test="textbookAuthor != null and textbookAuthor != ''">textbook_author = #{textbookAuthor},</if>
+            <if test="textbookISBN != null and textbookISBN != ''">textbook_ISBN = #{textbookISBN},</if>
+            <if test="publisherId != null and publisherId != ''">publisher_id = #{publisherId},</if>
+            <if test="textbookPrice != null and textbookPrice != ''">textbook_price = #{textbookPrice},</if>
+            <if test="textbookUpdateBy != null and textbookUpdateBy != ''">textbook_update_by = #{textbookUpdateBy},</if>
+        textbook_update_time = now(),
+        </set>
+        WHERE textbook_id = #{textbookId}
+    </update>
+    <delete id="deleteTextbookById" parameterType="integer">
+        DELETE
+        FROM t_textbook
+        WHERE textbook_id = #{textbookId}
+    </delete>
+    <delete id="deleteTextbookByTextbookIds" parameterType="integer">
 
+        DELETE FROM t_textbook WHERE t_textbook.textbook_id IN
+        <foreach collection="array" item="textbookId" open="(" separator="," close=")">
+            #{textbookId}
+        </foreach>
+    </delete>
+
+    <select id="selectTextbookList" parameterType="Textbook" resultMap="TextbookResult">
+        <include refid="selectTTextbookVo"/>
+        <where>
+            <if test="textbookTitle != null and textbookTitle != ''">
+                AND textbook_title LIKE CONCAT('%',#{textbookTitle},'%')
+            </if>
+            <if test="textbookAuthor != null and textbookAuthor != ''">
+                AND textbook_author LIKE CONCAT('%',#{textbookAuthor},'%')
+            </if>
+        </where>
+    </select>
+    <select id="countByTextbookTitle" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_textbook
+        WHERE textbook_title = #{textbookTitle}
+    </select>
+    <select id="selectTextbookByTextbookId" parameterType="integer" resultMap="TextbookResult">
+        <include refid="selectTTextbookVo"/>
+WHERE textbook_id = #{textbookId}
+</select>
+    <select id="countByPublisherId" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_textbook
+        WHERE publisher_id = #{pulisherId}
+    </select>
 </mapper>

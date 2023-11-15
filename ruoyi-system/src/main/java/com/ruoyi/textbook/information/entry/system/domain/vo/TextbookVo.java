@@ -1,8 +1,7 @@
-package com.ruoyi.textbook.information.entry.system.domain;
+package com.ruoyi.textbook.information.entry.system.domain.vo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -10,24 +9,23 @@ import java.util.Date;
  * @version 1.0
  * @project textbook-information-management-system
  * @description
- * @date 11/12/2023 11:12:31
+ * @date 11/14/2023 15:07:49
  */
-public class Textbook implements Serializable {
+public class TextbookVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer textbookId;
     private String textbookTitle;
     private String textbookAuthor;
-    private Integer publisherId;
+    private String publisherName;
 
     private BigDecimal textbookPrice;
 
-    private Integer textbookCreateBy;
+    private String textbookCreateBy;
     private Date textbookCreateTime;
-    private Integer textbookUpdateBy;
+    private String textbookUpdateBy;
     private Date textbookUpdateTime;
     private String textbookISBN;
-
 
     public Integer getTextbookId() {
         return textbookId;
@@ -53,12 +51,12 @@ public class Textbook implements Serializable {
         this.textbookAuthor = textbookAuthor;
     }
 
-    public Integer getPublisherId() {
-        return publisherId;
+    public String getPublisherName() {
+        return publisherName;
     }
 
-    public void setPublisherId(Integer publisherId) {
-        this.publisherId = publisherId;
+    public void setPublisherName(String publisherName) {
+        this.publisherName = publisherName;
     }
 
     public BigDecimal getTextbookPrice() {
@@ -69,11 +67,11 @@ public class Textbook implements Serializable {
         this.textbookPrice = textbookPrice;
     }
 
-    public Integer getTextbookCreateBy() {
+    public String getTextbookCreateBy() {
         return textbookCreateBy;
     }
 
-    public void setTextbookCreateBy(Integer textbookCreateBy) {
+    public void setTextbookCreateBy(String textbookCreateBy) {
         this.textbookCreateBy = textbookCreateBy;
     }
 
@@ -85,11 +83,11 @@ public class Textbook implements Serializable {
         this.textbookCreateTime = textbookCreateTime;
     }
 
-    public Integer getTextbookUpdateBy() {
+    public String getTextbookUpdateBy() {
         return textbookUpdateBy;
     }
 
-    public void setTextbookUpdateBy(Integer textbookUpdateBy) {
+    public void setTextbookUpdateBy(String textbookUpdateBy) {
         this.textbookUpdateBy = textbookUpdateBy;
     }
 
@@ -111,15 +109,15 @@ public class Textbook implements Serializable {
 
     @Override
     public String toString() {
-        return "Textbook{" +
+        return "TextbookVo{" +
                 "textbookId=" + textbookId +
                 ", textbookTitle='" + textbookTitle + '\'' +
                 ", textbookAuthor='" + textbookAuthor + '\'' +
-                ", publisherId=" + publisherId +
+                ", publisherName='" + publisherName + '\'' +
                 ", textbookPrice=" + textbookPrice +
-                ", textbookCreateBy=" + textbookCreateBy +
+                ", textbookCreateBy='" + textbookCreateBy + '\'' +
                 ", textbookCreateTime=" + textbookCreateTime +
-                ", textbookUpdateBy=" + textbookUpdateBy +
+                ", textbookUpdateBy='" + textbookUpdateBy + '\'' +
                 ", textbookUpdateTime=" + textbookUpdateTime +
                 ", textbookISBN='" + textbookISBN + '\'' +
                 '}';

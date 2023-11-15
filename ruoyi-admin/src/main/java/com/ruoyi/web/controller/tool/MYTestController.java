@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author LT
  * @version 1.0
- * @project RuoYi-Vue
+ * @project textbook-information-management-system
  * @description
  * @date 11/10/2023 11:01:07
  */

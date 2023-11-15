@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * @author LT
  * @version 1.0
- * @project RuoYi-Vue
+ * @project textbook-information-management-system
  * @description
  * @date 11/11/2023 20:12:09
  */
@@ -31,7 +31,7 @@ public class PublisherController extends BaseController {
     private IPublisherService publisherService;
 
     @GetMapping("/list")
-    public TableDataInfo a(Publisher publisher)
+    public TableDataInfo publisherList(Publisher publisher)
     {
         startPage();
 
@@ -49,7 +49,7 @@ public class PublisherController extends BaseController {
     {
         if (!publisherService.checkPublisherNameUnique(publisher) )
         {
-            return error("新增岗位'" + publisher.getPublisherName() + "'失败，出版社名称已存在");
+            return error("新增出版社'" + publisher.getPublisherName() + "'失败，出版社名称已存在");
         }
 
         return toAjax(publisherService.addPublisher(publisher));

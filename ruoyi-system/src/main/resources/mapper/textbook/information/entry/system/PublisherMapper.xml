@@ -70,4 +70,13 @@
         <include refid="selectPublisherVo"/>
         WHERE publisher_id = #{publisherId}
     </select>
+    <select id="getPublisherNameByPublisherId" resultType="java.lang.String">
+        SELECT  publisher_name FROM t_publisher WHERE publisher_id = #{publisherId}
+    </select>
+    <select id="countByPublisherName" resultType="java.lang.Integer">
+        SELECT  COUNT(*) FROM t_publisher WHERE publisher_name  = #{publisherName}
+    </select>
+    <select id="getPublisherIdByPublisherName" resultType="java.lang.Integer">
+        SELECT publisher_id FROM t_publisher WHERE publisher_name  = #{publisherName}
+    </select>
 </mapper>
