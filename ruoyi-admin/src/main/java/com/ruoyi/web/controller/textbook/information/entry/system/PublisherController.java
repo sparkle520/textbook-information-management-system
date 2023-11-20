@@ -34,9 +34,13 @@ public class PublisherController extends BaseController {
     public TableDataInfo publisherList(Publisher publisher)
     {
         startPage();
-
         List<Publisher> list =  publisherService.selectPublisherList(publisher);
         return getDataTable(list);
+    }
+    @GetMapping("/plist")
+    public AjaxResult publisherList()
+    {
+       return AjaxResult.success(publisherService.getPublisherIdAndPublisherName());
     }
     @GetMapping(value = "/{publisherId}")
     public AjaxResult getPublisherByPublisherId(@PathVariable Integer publisherId)
@@ -47,10 +51,10 @@ public class PublisherController extends BaseController {
     @Log(title = "出版社管理", businessType = BusinessType.EXPORT)
     public AjaxResult add(@Validated @RequestBody Publisher publisher)
     {
-        if (!publisherService.checkPublisherNameUnique(publisher) )
-        {
-            return error("新增出版社'" + publisher.getPublisherName() + "'失败，出版社名称已存在");
-        }
+//        if (!publisherService.checkPublisherNameUnique(publisher) )
+//        {
+//            return error("新增出版社'" + publisher.getPublisherName() + "'失败，出版社名称已存在");
+//        }
 
         return toAjax(publisherService.addPublisher(publisher));
     }
@@ -59,10 +63,10 @@ public class PublisherController extends BaseController {
     @PutMapping("/updatePublisher")
     public AjaxResult edit(@Validated @RequestBody Publisher publisher)
     {
-        if (!publisherService.checkPublisherNameUnique(publisher))
-        {
-            return error("修改出版社名称'" + publisher.getPublisherName() + "'失败，出版社名称已存在");
-        }
+//        if (!publisherService.checkPublisherNameUnique(publisher))
+//        {
+//            return error("修改出版社名称'" + publisher.getPublisherName() + "'失败，出版社名称已存在");
+//        }
         return toAjax(publisherService.updatePublisher(publisher));
     }
 

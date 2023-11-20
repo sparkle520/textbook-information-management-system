@@ -2,6 +2,7 @@ package com.ruoyi.textbook.information.entry.system.service;
 
 import com.ruoyi.textbook.information.entry.system.domain.Publisher;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ public interface IPublisherService {
     int updatePublisher(Publisher publisher);
 
     Publisher selectPublisherByPublisherId(Integer publisherId);
+    HashMap<Integer,String> getPublisherIdAndPublisherName();
 
     boolean checkPublisherNameUnique(Publisher publisher);
 

@@ -7,6 +7,7 @@ import com.ruoyi.textbook.information.entry.system.service.IPublisherService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -41,6 +42,11 @@ public class PublisherServiceImpl implements IPublisherService {
     @Override
     public Publisher selectPublisherByPublisherId(Integer publisherId) {
         return publisherMapper.selectPublisherByPublisherId(publisherId);
+    }
+
+    @Override
+    public HashMap<Integer, String> getPublisherIdAndPublisherName() {
+        return publisherMapper.getPublisherIdAndPublisherName();
     }
 
     //TODO 需要实现方法

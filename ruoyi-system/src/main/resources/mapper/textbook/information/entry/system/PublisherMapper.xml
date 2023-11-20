@@ -79,4 +79,10 @@
     <select id="getPublisherIdByPublisherName" resultType="java.lang.Integer">
         SELECT publisher_id FROM t_publisher WHERE publisher_name  = #{publisherName}
     </select>
+    <select id="getPublisherIdAndPublisherName" resultType="java.util.HashMap">
+        SELECT
+        publisher_id,
+        publisher_name
+        FROM t_publisher
+    </select>
 </mapper>

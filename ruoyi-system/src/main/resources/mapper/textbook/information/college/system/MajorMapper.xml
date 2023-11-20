@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.textbook.information.college.system.mapper.MajorMapper">
+    <resultMap type="Major" id="MajorResult">
+        <result property="majorId" column="major_id"/>
+        <result property="majorName" column="major_name"/>
+    </resultMap>
+    <sql id="selectMajorVo">
+        SELECT major_id, major_name
+        FROM t_major
+    </sql>
+    <insert id="insertMajor" parameterType="Major">
+        INSERT INTO  t_major
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="majorName != null and majorName != ''">major_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="majorName != null and majorName != ''">#{majorName},</if>
+        </trim>
+    </insert>
+    <update id="updateMajor" parameterType="Major">
+        UPDATE t_major
+        <set>
+            <if test="majorName != null and majorName != ''">major_name = #{majorName},</if>
+        </set>
+        WHERE major_id = #{majorId}
+    </update>
+    <delete id="deleteMajorByMajorIds" parameterType="integer">
+        DELETE FROM t_major WHERE major_id IN
+        <foreach collection="array" item="majorId" open="(" separator="," close=")">
+            #{majorId}
+        </foreach>
+    </delete>
+    <select id="selectMajorList" parameterType="Major" resultMap="MajorResult">
+        <include refid="selectMajorVo"/>
+        <where>
+            <if test="majorId != null and majorId != ''">
+                AND major_id LIKE CONCAT('%',#{majorId},'%')
+            </if>
+            <if test="majorName != null and majorName != ''">
+                AND major_name LIKE CONCAT('%',#{majorName},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectMajorByMajorId" parameterType="integer" resultMap="MajorResult">
+        <include refid="selectMajorVo"/>
+        WHERE
+        major_id = #{majorId}
+    </select>
+    <select id="countByMajorName" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_major
+        WHERE major_name = #{majorName}
+    </select>
+    <select id="countByMajorId" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_class
+        WHERE major_id = #{majorId}
+    </select>
+</mapper>

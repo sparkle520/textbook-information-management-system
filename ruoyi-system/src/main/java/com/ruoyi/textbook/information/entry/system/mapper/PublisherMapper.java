@@ -2,8 +2,10 @@ package com.ruoyi.textbook.information.entry.system.mapper;
 
 import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.textbook.information.entry.system.domain.Publisher;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,8 +18,8 @@ import java.util.List;
 public interface PublisherMapper {
     public int updatePublisher(Publisher publisher);
     public int deletePublisherById(Integer publisherId);
-
-
+    @MapKey("publisher_id")
+    HashMap<Integer,String> getPublisherIdAndPublisherName();
     int insertPublisher(Publisher publisher);
     public int deletePublisherByIds(Integer[] publisherIds);
     String getPublisherNameByPublisherId(Integer publisherId);
