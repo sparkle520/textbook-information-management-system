@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.textbook.information.college.system.mapper.ClassMapper">
+    <resultMap type="ClassVo" id="ClassVoResult">
+        <result property="classId" column="class_id"/>
+        <result property="className" column="class_name"/>
+        <result property="majorName" column="major_name"/>
+        <result property="classInstructorName" column="class_instructor_name"/>
+        <result property="classInstructorPhone" column="class_instructor_phone"/>
+        <result property="classMonitorName" column="class_monitor_name"/>
+        <result property="classMonitorPhone" column="class_monitor_phone"/>
+        <result property="classTotal" column="class_total"/>
+    </resultMap>
+    <insert id="insertClass" parameterType="Classes">
+        INSERT INTO  t_class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="className != null and className != ''">class_name,</if>
+            <if test="majorId != null">major_id,</if>
+            <if test="classInstructorName != null and classInstructorName != ''">class_instructor_name,</if>
+            <if test="classInstructorPhone != null and classInstructorPhone != ''">class_instructor_phone,</if>
+            <if test="classMonitorName != null and classMonitorName != ''">class_monitor_name,</if>
+            <if test="classMonitorPhone != null and classMonitorPhone != ''">class_monitor_phone,</if>
+            <if test="classTotal != null">class_total,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="className != null and className != ''">#{className},</if>
+            <if test="majorId != null">#{majorId},</if>
+            <if test="classInstructorName != null and classInstructorName != ''">#{classInstructorName},</if>
+            <if test="classInstructorPhone != null and classInstructorPhone != ''">#{classInstructorPhone},</if>
+            <if test="classMonitorName != null and classMonitorName != ''">#{classMonitorName},</if>
+            <if test="classMonitorPhone != null and classMonitorPhone != ''">#{classMonitorPhone},</if>
+            <if test="classTotal != null">#{classTotal},</if>
+        </trim>
+    </insert>
+    <update id="updateClass" parameterType="Classes">
+        UPDATE t_class
+        <set>
+            <if test="className != null and className != ''">class_name = #{className},</if>
+            <if test="majorId != null">major_id = #{majorId},</if>
+            <if test="classInstructorName != null and classInstructorName != ''">class_instructor_name = #{classMonitorName},</if>
+            <if test="classInstructorPhone != null and classInstructorPhone != ''">class_instructor_phone = #{classInstructorPhone},</if>
+            <if test="classMonitorName != null and classMonitorName != ''">class_monitor_name = #{classMonitorName},</if>
+            <if test="classMonitorPhone != null and classMonitorPhone != ''">class_monitor_phone = #{classMonitorPhone},</if>
+            <if test="classTotal != null">class_total = #{classTotal},</if>
+        </set>
+        WHERE class_id = #{classId}
+    </update>
+    <delete id="deleteClassByIds" parameterType="int">
+            DELETE FROM t_class WHERE class_id IN
+            <foreach collection="array" item="classId" open="(" separator="," close=")">
+                #{classId}
+            </foreach>
+    </delete>
+    <select id="selectClassList" parameterType="ClassVo" resultMap="ClassVoResult">
+        SELECT
+            c.class_id ,c.class_name, m.major_name,
+            c.class_instructor_name,c.class_instructor_phone,
+            c.class_monitor_name ,c.class_monitor_phone,c.class_total
+        FROM t_class c
+                LEFT JOIN t_major m ON c.major_id = m.major_id
+        <where>
+            <if test="className != null and className != ''">
+                AND c.class_name LIKE CONCAT('%',#{className},'%')
+            </if>
+            <if test="majorName != null and majorName != ''">
+                AND c.major_name LIKE CONCAT('%',#{majorName},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectClassByClassId"  parameterType="integer" resultMap="ClassVoResult">
+        SELECT
+            c.class_id ,c.class_name, m.major_name,
+            c.class_instructor_name,c.class_instructor_phone,
+            c.class_monitor_name ,c.class_monitor_phone,c.class_total
+        FROM t_class c
+                 LEFT JOIN t_major m ON c.major_id = m.major_id
+        WHERE c.class_id = #{classId}
+    </select>
+</mapper>

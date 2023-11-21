@@ -6,6 +6,7 @@ import com.ruoyi.textbook.information.college.system.service.IMajorService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class MajorServiceImpl implements IMajorService {
     @Override
     public List<Major> selectMajorList(Major major) {
         return majorMapper.selectMajorList(major);
+    }
+
+    @Override
+    public HashMap<Integer, String> selectMajorListHashMap() {
+        return majorMapper.getMajorListHashMap();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.ruoyi.textbook.information.college.system.service;
 
 import com.ruoyi.textbook.information.college.system.domain.Major;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
  */
 public interface IMajorService {
     List<Major> selectMajorList(Major major);
+    HashMap<Integer,String> selectMajorListHashMap();
     Major selectMajorByMajorId(Integer majorId);
     boolean checkMajorNameUnique(Major major);
     int addMajor(Major major);

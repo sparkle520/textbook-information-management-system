@@ -59,4 +59,8 @@
         FROM t_class
         WHERE major_id = #{majorId}
     </select>
+    <select id="getMajorListHashMap" resultType="java.util.HashMap">
+        SELECT major_id,major_name
+        FROM t_major
+    </select>
 </mapper>

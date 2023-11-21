@@ -2,7 +2,9 @@ package com.ruoyi.textbook.information.college.system.mapper;
 
 import com.ruoyi.textbook.information.college.system.domain.Major;
 import com.ruoyi.textbook.information.entry.system.domain.Publisher;
+import org.apache.ibatis.annotations.MapKey;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,6 +21,8 @@ public interface MajorMapper {
         int updateMajor(Major major);
 
     int insertMajor(Major major);
+    @MapKey("major_id")
+    HashMap<Integer,String> getMajorListHashMap();
     public int deleteMajorByMajorIds(Integer[] majorIds);
 
     int countByMajorId(Integer majorId);

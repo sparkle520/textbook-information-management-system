@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.ruoyi.common.utils.PageUtils.startPage;
@@ -36,6 +37,11 @@ public class MajorController extends BaseController {
         startPage();
         List<Major> list =  majorService.selectMajorList(major);
         return getDataTable(list);
+    }
+    @GetMapping("/plist")
+    public AjaxResult majorList()
+    {
+        return AjaxResult.success(majorService.selectMajorListHashMap());
     }
     @GetMapping(value = "/{majorId}")
     public AjaxResult getMajorByMajorId(@PathVariable Integer majorId)
