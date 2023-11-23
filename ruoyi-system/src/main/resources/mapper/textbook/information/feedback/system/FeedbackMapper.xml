@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.textbook.information.feedback.system.mapper.FeedbackMapper">
+    <resultMap type="Feedback" id="FeedbackResult">
+        <result property="feedbackId"    column="feedback_id"    />
+        <result property="feedbackContent"    column="feedback_content"    />
+        <result property="feedbackDate"    column="feedback_date"    />
+        <result property="feedbackName"    column="feedback_name"    />
+        <result property="feedbackTitle"    column="feedback_title"    />
+    </resultMap>
+    <insert id="insertFeedback" parameterType="Feedback">
+        INSERT INTO  t_feedback
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="feedbackContent != null and feedbackContent != ''">feedback_content,</if>
+            feedback_date,
+            <if test="feedbackName != null and feedbackName != ''">feedback_name,</if>
+            <if test="feedbackTitle != null and feedbackTitle != ''">feedback_title,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="feedbackContent != null and feedbackContent != ''">#{feedbackContent},</if>
+            now(),
+            <if test="feedbackName != null and feedbackName != ''">#{feedbackName},</if>
+            <if test="feedbackTitle != null and feedbackTitle != ''">#{feedbackTitle},</if>
+        </trim>
+    </insert>
+    <delete id="deleteByFeedbackIds" parameterType="int">
+        DELETE FROM t_feedback WHERE feedback_id IN
+        <foreach collection="array" item="feedbackId" open="(" separator="," close=")">
+            #{feedbackId}
+        </foreach>
+    </delete>
+    <select id="selectFeedbackList" parameterType="Feedback" resultMap="FeedbackResult">
+SELECT feedback_id,feedback_title,feedback_content,
+feedback_date,feedback_name
+    FROM t_feedback
+<where>
+    <if test="feedbackName != null and feedbackName != ''">
+        AND feedback_name LIKE CONCAT('%',#{feedbackName},'%')
+    </if>
+</where>
+    </select>
+</mapper>

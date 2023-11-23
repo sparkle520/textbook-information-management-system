@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.textbook.information.review.system.mapper.ReviewMapper">
+    <resultMap type="Review" id="ReviewResult">
+        <result property="reviewId" column="review_id"/>
+        <result property="textbookId" column="textbook_id"/>
+        <result property="courseName" column="course_name"/>
+        <result property="courseProperty" column="course_property"/>
+        <result property="useObject" column="use_object"/>
+        <result property="selectReason" column="select_reason"/>
+        <result property="signaturePrincipal" column="signature_principal"/>
+        <result property="principalDate" column="principal_date"/>
+        <result property="signatureLeader" column="signature_leader"/>
+        <result property="approvalOpinion" column="approval_opinion"/>
+        <result property="leaderDate" column="leader_date"/>
+    </resultMap>
+    <resultMap type="ReviewVo" id="ReviewVoResult">
+        <result property="reviewId" column="review_id"/>
+        <result property="textbookId" column="textbook_id"/>
+        <result property="textbookTitle" column="textbook_title"/>
+        <result property="textbookAuthor" column="textbook_author"/>
+        <result property="textbookISBN" column="textbook_ISBN"/>
+        <result property="publisherId" column="publisher_id"/>
+        <result property="publisherName" column="publisher_name"/>
+        <result property="courseName" column="course_name"/>
+        <result property="courseProperty" column="course_property"/>
+        <result property="useObject" column="use_object"/>
+        <result property="selectReason" column="select_reason"/>
+        <result property="signaturePrincipal" column="signature_principal"/>
+        <result property="principalDate" column="principal_date"/>
+        <result property="signatureLeader" column="signature_leader"/>
+        <result property="approvalOpinion" column="approval_opinion"/>
+        <result property="leaderDate" column="leader_date"/>
+    </resultMap>
+    <insert id="insertReviewByTextbookId" parameterType="integer">
+        INSERT INTO  t_review
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="textbookId != null and textbookId != ''">textbook_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="textbookId != null and textbookId != ''">#{textbookId},</if>
+        </trim>
+    </insert>
+    <select id="selectReviewVoByTextbookId" parameterType="integer" resultMap="ReviewVoResult">
+        SELECT r.review_id, r.textbook_id,b.textbook_title,
+               b.textbook_author, b.textbook_ISBN,b.publisher_id,
+               p.publisher_name,r.course_name,r.course_property,
+               r.use_object,r.select_reason, r.signature_principal,
+               r.principal_date,r.signature_leader,r.approval_opinion,
+               r.leader_date
+        FROM t_review r
+                 LEFT JOIN t_textbook b ON r.textbook_id = b.textbook_id
+                 LEFT JOIN t_publisher p ON b.publisher_id = p.publisher_id
+        WHERE r.textbook_id = #{textbookId}
+    </select>
+    <select id="countByTextbookId" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_review
+        WHERE textbook_id = #{textbookId}
+    </select>
+</mapper>
